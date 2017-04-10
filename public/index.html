@@ -13,7 +13,19 @@
 	<script src="script.js"></script>
 </head>
 
-<body onload="getCards()">
+<body onload="openNav(), getCards()">
+
+	<!-- Welcome Page overlay -->
+	<div id="myNav" class="overlay">
+		<!-- Overlay content -->
+		<div class="overlay-content">
+			<h1>Round Begins in:</h1>
+			<p id="startCountdown"></p>
+
+		</div>
+
+	</div> 	<!--end overlay-->
+
 	<div class="header">
 		<h1 id="title">Taboo Online</h1>
 		<p id="timer"></p>

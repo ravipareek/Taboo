@@ -36,3 +36,74 @@ thead {
     height: auto;
     text-align: center;
 }
+.header{
+	text-align: center;
+	max-width: 700px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 10px;
+}
+
+.header h1{
+	font-size: 80px;
+}
+.header p{
+    font-size: 20px;
+    text-align: right;
+    float: right;
+}
+
+table {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 30px; 
+	border-collapse: separate;
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    height: 400px;
+    width: 300px;
+}
+td {
+    border-top:solid black 1px;
+    height: 65px;
+    width: 300px;
+    text-align: center;
+    vertical-align: middle;
+}
+thead {
+    background-color: pink;
+    border-top: none;
+    width: 300px;
+    height: auto;
+    text-align: center;
+}
+
+/*Overlays*/
+.overlay {
+    height: 0%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.9);
+    overflow-y: hidden;
+    transition: 0.5s;
+}
+
+.overlay-content {
+    position: relative;
+    top: 25%;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+}
+.overlay p {
+    color: #FFF;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: 300;
+}
