@@ -1,0 +1,38 @@
+.header{
+	text-align: center;
+	max-width: 700px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 10px;
+}
+
+.header h1{
+	font-size: 80px;
+}
+
+table {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 30px; 
+	border-collapse: separate;
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    height: 400px;
+    width: 300px;
+}
+td {
+    border-top:solid black 1px;
+    height: 65px;
+    width: 300px;
+    text-align: center;
+    vertical-align: middle;
+}
+thead {
+    background-color: pink;
+    border-top: none;
+    width: 300px;
+    height: auto;
+    text-align: center;
+}
