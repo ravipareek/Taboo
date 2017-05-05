@@ -30,30 +30,34 @@
 		<h1 id="title">Taboo Online</h1>
 		<p id="timer"></p>
 	</div>
-	<table id="card">
-		<thead>
-			<tr id="word">
-				<th class="cardText" id="wordText"></th>
+	<div id="gameMiddle">
+		<table id="card">
+			<thead>
+				<tr id="word">
+					<th class="cardText" id="wordText"></th>
+				</tr>
+			</thead>
+			<tr id="noSay1">
+				<td class="cardText" id="noSay1Text" align="center" valign="middle"></td>
 			</tr>
-		</thead>
-		<tr id="noSay1">
-			<td class="cardText" id="noSay1Text" align="center" valign="middle"></td>
-		</tr>
-		<tr id="noSay2">
-			<td class="cardText" id="noSay2Text" align="center" valign="middle"></td>
-		</tr>
-		<tr id="noSay3">
-			<td class="cardText" id="noSay3Text" align="center" valign="middle"></td>
-		</tr>
-		<tr id="noSay4">
-			<td class="cardText" id="noSay4Text" align="center" valign="middle"></td>
-		</tr>
-		<tr id="noSay5">
-			<td class="cardText" id="noSay5Text" align="center" valign="middle"></td>
-		</tr>
-	</table>
+			<tr id="noSay2">
+				<td class="cardText" id="noSay2Text" align="center" valign="middle"></td>
+			</tr>
+			<tr id="noSay3">
+				<td class="cardText" id="noSay3Text" align="center" valign="middle"></td>
+			</tr>
+			<tr id="noSay4">
+				<td class="cardText" id="noSay4Text" align="center" valign="middle"></td>
+			</tr>
+			<tr id="noSay5">
+				<td class="cardText" id="noSay5Text" align="center" valign="middle"></td>
+			</tr>
+		</table>
+		<button id="correct" onclick="correct()">Correct</button>
+		<button id="wrong" onclick="wrong()">Wrong</button>
+	</div>
 
-	<button onclick="fillCard()">Fill Card</button>
+	<!-- <button onclick="fillCard()">Fill Card</button> -->
 
 </body>
 

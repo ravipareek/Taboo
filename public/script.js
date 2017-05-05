@@ -11,6 +11,11 @@
 
  var allCards = [];
 
+ var teamA = 0;
+ var teamB = 0;
+
+ var turn = 'A';
+
  function getCards(){
  	var ref = database.ref();
  	ref.once('value').then(function(snapshot){
@@ -21,25 +26,7 @@
  }
 
  function fillCard(){
-= 	 	var cardNum = Math.floor(Math.random() * allCards.length);
- 	 	// console.log(cardNum);
- 	 	var card = allCards[cardNum];
- 	 	document.getElementById('wordText').innerText = card.word;
- 	 	document.getElementById('noSay1Text').innerText = card.noSay1;
- 	 	document.getElementById('noSay2Text').innerText = card.noSay2;
- 	 	document.getElementById('noSay3Text').innerText = card.noSay3;
- 	 	document.getElementById('noSay4Text').innerText = card.noSay4;
- 	 	document.getElementById('noSay5Text').innerText = card.noSay5;
- 	
- 	 	allCards.splice(cardNum,1);
- 	 	
- 	 	if (allCards.length==0){
- 		getCards();
- 		console.log('getting new cards');
- 		// console.log(allCards);
- 	}
- }
-=	var cardNum = Math.floor(Math.random() * allCards.length);
+ 	var cardNum = Math.floor(Math.random() * allCards.length);
  	// console.log(cardNum);
  	var card = allCards[cardNum];
  	document.getElementById('wordText').innerText = card.word;
@@ -54,13 +41,26 @@
  	if (allCards.length==0){
  		getCards();
  		console.log('getting new cards');
- 	}
+ 	}	
  }
 
-function startRound(){
-	var countDownDate = new Date().getTime() + 61000;
-	fillCard()
-	var x = setInterval(function(){
+ function correct(){
+ 	if (turn == 'A')
+ 		teamA++;
+ 	else
+ 		teamB++;
+
+ 	fillCard();
+ }
+
+ function wrong(){
+ 	fillCard();
+ }
+
+ function startRound(){
+ 	var countDownDate = new Date().getTime() + 61000;
+ 	fillCard()
+ 	var x = setInterval(function(){
 		// Get todays date and time
 		var now = new Date().getTime();	
 		// Find the distance between now an the count down date
@@ -71,15 +71,17 @@ function startRound(){
 
 		if (seconds <= 0){
 			clearInterval(x);
+			console.log("Team A: " + teamA);
+			console.log("Team B: " + teamB);
 		}
 	},1000);
-}
+ }
 
-function openNav() {
-    document.getElementById("myNav").style.height = "100%";
-    var countDownDate = new Date().getTime() + 3510;
+ function openNav() {
+ 	document.getElementById("myNav").style.height = "100%";
+ 	var countDownDate = new Date().getTime() + 3510;
 
-	var x = setInterval(function(){
+ 	var x = setInterval(function(){
 		// Get todays date and time
 		var now = new Date().getTime();	
 		// Find the distance between now an the count down date
@@ -89,14 +91,19 @@ function openNav() {
 		document.getElementById("startCountdown").innerHTML = seconds + "s ";
 	},100);
 
-	var y = setTimeout(function(){
-		console.log("Clear Interval")
-		clearInterval(x);
-		closeNav(x,y);
-	},3000);
-}
+ 	var y = setTimeout(function(){
+ 		console.log("Clear Interval")
+ 		clearInterval(x);
+ 		closeNav(x,y);
+ 	},3000);
+ }
 
-function closeNav() {
-    startRound();
-    document.getElementById("myNav").style.height = "0%";
+ function closeNav() {
+ 	startRound();
+ 	document.getElementById("myNav").style.height = "0%";
+ }
+
+function toTitleCase(str)
+{
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
