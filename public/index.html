@@ -9,19 +9,37 @@
 
 	<script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/3.7.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.9.0/firebase-auth.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/3.7.1/firebase-database.js"></script>
 	<script src="script.js"></script>
 </head>
 
-<body onload="openNav(), getCards()">
+<body onload="openNav()">
 
 	<!-- Welcome Page overlay -->
 	<div id="myNav" class="overlay">
 		<!-- Overlay content -->
 		<div class="overlay-content">
-			<h1>Round Begins in:</h1>
-			<p id="startCountdown"></p>
-
+			<div id="countdown">
+				<h1>Round Begins in:</h1>
+				<p id="startCountdown"></p>
+			</div>
+			<div id="signin">
+				<form>
+					<input type="text" name="Name" id="name" placeholder="Name"> <br>
+					<input type="radio" name="Team" option="1"> Team 1
+					<input type="radio" name="Team" option="2"> Team 2 <br>
+					<input type="button" name="Done" onclick="toggleSignIn()" value="Submit">
+				</form>
+			</div>
+			<div id="Team_Setup">
+				<table>
+					<tbody>
+						<th>Team 1</th>
+						<th>Team 2</th>
+					</tbody>
+				</table>
+			</div>
 		</div>
 
 	</div> 	<!--end overlay-->
@@ -30,8 +48,8 @@
 		<h1 id="title">Taboo Online</h1>
 		<p id="timer"></p>
 	</div>
-	<table id="card">
-		<thead>
+	<table class="cardTable" id="card">
+		<thead class="cardHead">
 			<tr id="word">
 				<th class="cardText" id="wordText"></th>
 			</tr>

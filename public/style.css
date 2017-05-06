@@ -11,7 +11,7 @@
 	font-size: 80px;
 }
 
-table {
+.cardTable {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -22,14 +22,14 @@ table {
     height: 400px;
     width: 300px;
 }
-td {
+.cardText {
     border-top:solid black 1px;
     height: 65px;
     width: 300px;
     text-align: center;
     vertical-align: middle;
 }
-thead {
+.cardHead {
     background-color: pink;
     border-top: none;
     width: 300px;
@@ -52,32 +52,6 @@ thead {
     font-size: 20px;
     text-align: right;
     float: right;
-}
-
-table {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	font-size: 30px; 
-	border-collapse: separate;
-    border-radius: 25px;
-    border: 2px solid #73AD21;
-    height: 400px;
-    width: 300px;
-}
-td {
-    border-top:solid black 1px;
-    height: 65px;
-    width: 300px;
-    text-align: center;
-    vertical-align: middle;
-}
-thead {
-    background-color: pink;
-    border-top: none;
-    width: 300px;
-    height: auto;
-    text-align: center;
 }
 
 /*Overlays*/
@@ -106,4 +80,27 @@ thead {
     text-align: center;
     font-size: 1.5em;
     font-weight: 300;
+}
+
+#countdown {
+    display: none;
+    text-decoration-color: white;
+}
+#signin {
+    display: block;
+}
+form{
+    background-color: rgba(255,255,255, 0.9);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    text-align: center;
+    display: inline-block;
+}
+#Team_Setup{
+    margin-top: -100px;
+    color: white;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
