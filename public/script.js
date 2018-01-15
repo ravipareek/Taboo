@@ -10,9 +10,13 @@
  var database = firebase.database();
  var gameid;
  var name;
+ var playerID;
  var host = false;
  var gameStart = false;
  var myTeam;
+
+ var teamAMembers = [];
+ var teamBMembers = [];
 
  var allCards = [];
 
@@ -29,27 +33,43 @@ var score = [0,0];
  			allCards.push(childSnapshot.val())
  		});
  	});
- 	// console.log(allCards)
+ 	allCards.sort(function(a,b){
+ 		if (a.word > b.wordBreak) return 1;
+        if (a.word < b.wordBreak) return -1;
+        return 0;
+	})
  }
  //display the card
  function fillCard(){
-	var cardNum = 1;
-	//when the card attribute changes for this game
-	database.ref('games/'+gameid+'/card').on('value',function(snapshot){
-		//get the card number
-		cardNum = snapshot.val();
-		//get the card information from the words table
-		database.ref('words/word' + cardNum).once("value").then(function(snap){
-			var card = snap.val();
-			// fill the display with the information
-		 	document.getElementById('wordText').innerText = toTitleCase(card.word);
-		 	document.getElementById('noSay1Text').innerText = toTitleCase(card.noSay1);
-		 	document.getElementById('noSay2Text').innerText = toTitleCase(card.noSay2);
-		 	document.getElementById('noSay3Text').innerText = toTitleCase(card.noSay3);
-		 	document.getElementById('noSay4Text').innerText = toTitleCase(card.noSay4);
-		 	document.getElementById('noSay5Text').innerText = toTitleCase(card.noSay5);
-		});
-	});	
+ 	var selectedPlayer;
+ 	database.ref('games/'+gameid+'/selectedPlayer').once("value").then(function(snap){
+ 		selectedPlayer = snap.val();
+ 		if (myTeam == turn && selectedPlayer != playerID){
+ 			//hide the card
+ 			document.getElementById('card').style.display = 'none';
+ 		}
+ 		else {
+ 			document.getElementById('card').style.display = 'inline-block';
+	 		//show the card
+	 		var cardNum = 1;
+	 		//when the card attribute changes for this game
+	 		database.ref('games/'+gameid+'/card').on('value',function(snapshot){
+	 			//get the card number
+	 			cardNum = snapshot.val();
+	 			//get the card information from the words table
+	 			database.ref('words/word' + cardNum).once("value").then(function(snap){
+	 				var card = snap.val();
+	 				// fill the display with the information
+	 			 	document.getElementById('wordText').innerText = toTitleCase(card.word);
+	 			 	document.getElementById('noSay1Text').innerText = toTitleCase(card.noSay1);
+	 			 	document.getElementById('noSay2Text').innerText = toTitleCase(card.noSay2);
+	 			 	document.getElementById('noSay3Text').innerText = toTitleCase(card.noSay3);
+	 			 	document.getElementById('noSay4Text').innerText = toTitleCase(card.noSay4);
+	 			 	document.getElementById('noSay5Text').innerText = toTitleCase(card.noSay5);
+	 			});
+	 		});
+	 	}
+ 	});
  }
 //get a new card
 function getNewCard(){
@@ -84,40 +104,42 @@ function getNewCard(){
  function startRound(){
  	console.log("Starting new round");
  	//hide the buttons if it is not your turn, show them else 
-	if (myTeam != turn){
-		// console.log('Not my turn');
-		document.getElementById('correct').style.display = 'none';
-		document.getElementById('wrong').style.display = 'none';
-	}
-	else{
-		// console.log('My turn');
-		document.getElementById('correct').style.display = 'inline-block';
-		document.getElementById('wrong').style.display = 'inline-block';
-	}
-	//set a timer for 1 minute per round
- 	//change to 61000
- 	var countDownDate = new Date().getTime() + 21000;
- 	// this will run every second updating the timer displayed
- 	var x = setInterval(function(){
-		// Get todays date and time
-		var now = new Date().getTime();	
-		// Find the distance between now an the count down date
-		var distance = countDownDate - now;
-		//calculate that in seconds
-		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-		//display the time remaining for the user
-		document.getElementById("timer").innerHTML = seconds + "s ";
-		//if the end is reached, stop the repatition of the function
-		if (seconds <= 0){
-			clearInterval(x);
+ 	var selectedPlayer;
+ 	database.ref('games/'+gameid+'/selectedPlayer').once("value").then(function(snap){
+ 		selectedPlayer = snap.val();
+
+		if (selectedPlayer != playerID){
+			document.getElementById('correct').style.display = 'none';
+			document.getElementById('wrong').style.display = 'none';
 		}
-	},1000);
+		else{
+			document.getElementById('correct').style.display = 'inline-block';
+			document.getElementById('wrong').style.display = 'inline-block';
+		}
+		//set a timer for 1 minute per round
+	 	//change to 61000
+	 	var countDownDate = new Date().getTime() + 21000;
+	 	// this will run every second updating the timer displayed
+	 	var x = setInterval(function(){
+			// Get todays date and time
+			var now = new Date().getTime();	
+			// Find the distance between now an the count down date
+			var distance = countDownDate - now;
+			//calculate that in seconds
+			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+			//display the time remaining for the user
+			document.getElementById("timer").innerHTML = seconds + "s ";
+			//if the end is reached, stop the repatition of the function
+			if (seconds <= 0){
+				clearInterval(x);
+			}
+	},1000)
+	});
  	//this will run after 1 minute has passed
 	var y = setTimeout(function(){
 		//start the next round (switch turns)
 		nextRound();
 		//stop the interval and timeout
-		clearInterval(x);
  		clearTimeout(y);
  	//change to 60000
  	},20000);
@@ -186,6 +208,18 @@ function nextRound(){
  	if (host){
  		document.getElementById('startButton').style.display = 'none';
  		document.getElementById('gameID').style.display = 'none';
+ 		if (!turn){
+ 			var randomNumber = Math.floor(Math.random() * teamAMembers.length);
+ 			database.ref('games/'+gameid).update({
+ 				selectedPlayer: teamAMembers[randomNumber]
+ 			});
+	 	}
+	 	else{
+			var randomNumber = Math.floor(Math.random() * teamBMembers.length); 
+			database.ref('games/'+gameid).update({
+ 				selectedPlayer: teamBMembers[randomNumber]
+ 			});	
+	 	}
  	}
  	//generate the first card of the round
  	getNewCard();
@@ -218,6 +252,7 @@ function nextRound(){
  function signin() {
  	//get the user object from firebase
  	user = firebase.auth().currentUser;
+ 	playerID = user.uid;
  	//get the text in the textbox
  	name = document.getElementById("name").value;
  	//get the option selected
@@ -264,6 +299,7 @@ function nextRound(){
  	var rows = table.rows;
  	//when a child is added
  	refA.on("child_added", function(data, prevChildKey){
+ 		teamAMembers.push(data.val());
  		//number of members listed in the table so far in each team
  		var Acount = 0;
  		var Bcount = 0;
@@ -295,6 +331,7 @@ function nextRound(){
  		}
  	});
  	refB.on("child_added", function(data, prevChildKey){
+		teamBMembers.push(data.val());
  		//number of members listed in the table so far in each team
  		var Acount = 0;
  		var Bcount = 0;
